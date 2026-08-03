@@ -23,7 +23,11 @@ Todos os campos da tabela foram conferidos/ajustados conforme a especificação da
 | ZA1\_DTNASC | D    | 8       | Real     |
 | ZA1\_OBS    | C    | 60      | Real     |
 
-### 2. Configuração do campo ZA1\_CLIENT (lookup para o cliente)
+### 2. Configuração dos campos ZA1\_CLIENT e ZA1\_LOJA (lookup para o cliente)
+
+* Validação de usuário aplicada no campo **ZA1\_LOJA** (não no ZA1\_CLIENT): `ExistCpo("SA1", xFilial("SA1") + M->ZA1_CLIENT + M->ZA1_LOJA, 1)`  garante que o código de cliente + loja digitado realmente existe na tabela SA1.
+
+> **Nota:** a apostila original indicava essa validação no campo `ZA1_CLIENT`. Na prática, colocá-la ali gera erro, porque o gatilho dispara ao sair do campo Cliente no momento em que `ZA1_LOJA` ainda está vazio, fazendo a validação falhar mesmo com um cliente válido. A validação foi movida para o campo `ZA1_LOJA`, que é preenchido depois do Cliente, garantindo que os dois valores já estejam disponíveis no momento da checagem. O professor confirmou esse ajuste como o correto, apontando a inconsistência no material original.
 
 * Validação de usuário aplicada: `ExistCpo("SA1", xFilial("SA1") + M->ZA1_CLIENT + M->ZA1_LOJA, 1)` — garante que o código de cliente + loja digitado realmente existe na tabela SA1.
 
